@@ -1,8 +1,6 @@
 import streamlit as st
-import urllib.parse
 import pickle
-from sklearn.base import BaseEstimator, TransformerMixin
-from utils import ProcessText, get_dict_trans
+from utils import ProcessText, get_dict_trans, is_url, is_vnexpress_url
 import requests
 from bs4 import BeautifulSoup
 with open('model.pkl', 'rb') as f:
@@ -11,15 +9,6 @@ with open('model.pkl', 'rb') as f:
 with open('label_encoder.pkl', 'rb') as f:
     lb = pickle.load(f)
     
-def is_url(text):
-    try:
-        result = urllib.parse.urlparse(text)
-        return all([result.scheme, result.netloc])  # Kiểm tra xem có scheme và netloc hay không
-    except ValueError:
-        return False
-    
-def is_vnexpress_url(url):
-    return url.startswith('https://vnexpress.net')
 
 def crawler(url):
     response = requests.get(url)

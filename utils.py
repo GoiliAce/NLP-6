@@ -3,6 +3,7 @@
 import pickle
 from sklearn.base import BaseEstimator, TransformerMixin
 from underthesea import word_tokenize
+import urllib.parse
 
 
 with open('tfidf_vectorizer.pkl', 'rb') as f:
@@ -32,3 +33,12 @@ def get_dict_trans():
     'suc-khoe': 'Sức khỏe',
     'du-lich': 'Du lịch'
 }
+def is_url(text):
+    try:
+        result = urllib.parse.urlparse(text)
+        return all([result.scheme, result.netloc])  # Kiểm tra xem có scheme và netloc hay không
+    except ValueError:
+        return False
+    
+def is_vnexpress_url(url):
+    return url.startswith('https://vnexpress.net')
