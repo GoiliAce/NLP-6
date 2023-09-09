@@ -4,6 +4,8 @@ import pickle
 from sklearn.base import BaseEstimator, TransformerMixin
 from underthesea import word_tokenize
 import urllib.parse
+from bs4 import BeautifulSoup
+import requests
 
 
 with open('tfidf_vectorizer.pkl', 'rb') as f:
