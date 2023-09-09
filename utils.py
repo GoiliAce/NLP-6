@@ -42,3 +42,18 @@ def is_url(text):
     
 def is_vnexpress_url(url):
     return url.startswith('https://vnexpress.net')
+
+def crawler(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    if is_vnexpress_url(url):
+        soup = BeautifulSoup(response.text, 'html.parser')
+        description = soup.find('p', class_='description')
+        for i in description.find_all(class_='location-stamp'):
+            i.decompose()
+        description = description.text
+        content = '\n'.join([p.text for p in soup.find_all('p', class_='Normal')])
+        content = description+'\n'+content
+        return content
+    else:
+        return soup.text

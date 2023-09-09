@@ -1,6 +1,6 @@
 import streamlit as st
 import pickle
-from utils import ProcessText, get_dict_trans, is_url, is_vnexpress_url
+from utils import ProcessText, get_dict_trans, is_url, crawler
 import requests
 from bs4 import BeautifulSoup
 with open('model.pkl', 'rb') as f:
@@ -10,20 +10,6 @@ with open('label_encoder.pkl', 'rb') as f:
     lb = pickle.load(f)
     
 
-def crawler(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    if is_vnexpress_url(url):
-        soup = BeautifulSoup(response.text, 'html.parser')
-        description = soup.find('p', class_='description')
-        for i in description.find_all(class_='location-stamp'):
-            i.decompose()
-        description = description.text
-        content = '\n'.join([p.text for p in soup.find_all('p', class_='Normal')])
-        content = description+'\n'+content
-        return content
-    else:
-        return soup.text
 def user_input():
     text = st.text_area("Nhập vào văn bản của bạn, có thể dán vào link (ưu tiên VNExpress))")
     if is_url(text):
@@ -33,8 +19,6 @@ def user_input():
     uploaded_file = st.file_uploader("Chọn file txt", type="txt")
     if uploaded_file is not None:
         text = uploaded_file.read().decode("utf-8")
-    # url = st.text_input("Hoặc dán 1 link bài báo (ưu tiên VNExpress))")
-    # text = crawler(url)
     return text
 
 
