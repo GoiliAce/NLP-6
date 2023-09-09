@@ -2,7 +2,7 @@ import streamlit as st
 import urllib.parse
 import pickle
 from sklearn.base import BaseEstimator, TransformerMixin
-from untils import ProcessText, get_dict_trans
+from utils import ProcessText, get_dict_trans
 import requests
 from bs4 import BeautifulSoup
 with open('model.pkl', 'rb') as f:
@@ -36,7 +36,7 @@ def crawler(url):
     else:
         return soup.text
 def user_input():
-    text = st.text_input("Nhập vào văn bản của bạn, có thể dán vào link (ưu tiên VNExpress))")
+    text = st.text_area("Nhập vào văn bản của bạn, có thể dán vào link (ưu tiên VNExpress))")
     if is_url(text):
         text = crawler(text)
         
