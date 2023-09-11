@@ -14,9 +14,7 @@ def user_input():
     text = st.text_area("Nhập văn bản của bạn, có thể dán vào link (ưu tiên VNExpress)")
 
     if is_url(text):
-        # Hiển thị thông báo đang cào dữ liệu
         with st.spinner("Đang tải dữ liệu từ URL..."):
-            # Bắt đầu cào dữ liệu từ URL
             text = crawler(text)
 
     st.subheader("Hoặc upload file txt")
